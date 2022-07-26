@@ -12,24 +12,47 @@ require __DIR__ . '/vendor/autoload.php';
 //echo $evaluator->execute($_POST['data']);
 
 if (preg_match("/^[\+\-\*\/\%\d\(\)]+$/",$_POST['data'])) {
-    $evaluator = new \Matex\Evaluator();
-    echo $evaluator->execute($_POST['data']);
+//    $evaluator = new \Matex\Evaluator();
+//    echo $evaluator->execute($_POST['data']);
+
+
 //    echo substr_count($_POST['data'], '(' | ')');
-    }
+}
 //} else {
 //    echo "Выражение введено с ошибкой";
 //};
-if(substr_count($_POST['data'], '(' | ')')) {
-//    $evaluator = new \Matex\Evaluator();
+//if(substr_count($_POST['data'], '(' | ')')) {
+////    $evaluator = new \Matex\Evaluator();
+////
+////    echo $evaluator->execute($_POST['data']);
+//
+//} else {
+//    echo "<br>" ."Выражение введено без скобок";
+//}
+function isCorrect($string)
+{
+    # Массив скобок
+    $brackets = array(
+        array('{', '}'),
+        array('(', ')')
+    );
 
-    //echo $evaluator->execute($_POST['data']);
+    # Обходим массив скобок
+    foreach ($brackets as $bracket) {
+        # Считаем количество
+        if (substr_count($string, $bracket[0]) != substr_count($string, $bracket[1]))
+            # Если количество не совпадает - ошибка
+            return false;
+    }
 
-} else {
-    echo "<br>" ."Выражение введено без скобок";
+    # По умолчанию
+    return true;
 }
+
+if (isCorrect($_POST['data'])){
+    $evaluator = new \Matex\Evaluator();
+    echo $evaluator->execute($_POST['data']);
+    echo "<br>" .'Строка верна';
+} else
+    echo "<br>" .'Строка не верна';
 ?>
-
-
-
-
-
