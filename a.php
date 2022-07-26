@@ -1,4 +1,4 @@
-//создаём html-форму для ввода и отправки строки
+<!--создаём html-форму для ввода и отправки строки-->
 <form action="?do=calc" method="post">
     <input type="text" name="data" />
 
