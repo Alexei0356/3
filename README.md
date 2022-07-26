@@ -1,3 +1,5 @@
-To run project you should open a.php in browser
+перед запуском выполнить команду
+php .\composer.phar install
+
 
  
