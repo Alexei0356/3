@@ -1,0 +1,61 @@
+{
+    "packages": [
+        {
+            "name": "madorin/matex",
+            "version": "v1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madorin/matex.git",
+                "reference": "2927e17d91bd294b18655e0d42c3a0c9e783a25f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madorin/matex/zipball/2927e17d91bd294b18655e0d42c3a0c9e783a25f",
+                "reference": "2927e17d91bd294b18655e0d42c3a0c9e783a25f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "time": "2021-01-07T18:46:41+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Matex\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dorin Marcoci",
+                    "email": "dorin.marcoci@gmail.com",
+                    "homepage": "https://www.marcodor.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Mathematical expression parser and evaluator",
+            "homepage": "https://github.com/madorin/matex",
+            "keywords": [
+                "calculator",
+                "eval",
+                "evaluator",
+                "expression",
+                "formula",
+                "math",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/madorin/matex/issues",
+                "source": "https://github.com/madorin/matex"
+            },
+            "install-path": "../madorin/matex"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
