@@ -95,7 +95,6 @@ private function getFunction(string $name) {
 		throw new Exception('Unknown function: '.$name, 6);
 	if (!$this->getArguments($arguments))
 		throw new Exception('Syntax error', 1);
-	if (isset($routine['arc']) && ($routine['arc'] != count($arguments)))
 		throw new Exception('Invalid argument count', 3);
 	return call_user_func_array($routine['ref'], $this->proArguments($arguments));
 }
@@ -152,8 +151,10 @@ private function subTerm() {
 				break;
 			case '/':
 				if ($term == 0)
-					throw new Exception('Division by zero', 7);
-				$value /= $term;
+                    print 'Друг, мы на ноль не делим!';
+//                break;
+
+                $value /= $term;
 				break;
 			case '^':
 				$value **= $term;
@@ -198,8 +199,12 @@ public function execute(string $formula) {
 		}
 	}
 	if ($b != 0)
-		throw new Exception('Unmatched brackets', 2);
-	$i = strpos($formula, '"');
+//		throw new Exception('Несовпадение по скобкам, уважаемый!', 2);
+        print 'Несовпадение по скобкам, уважаемый!';
+//    exit();
+
+
+    $i = strpos($formula, '"');
 	if ($i === false)
 		$formula = str_replace(' ', '', strtolower($formula));
 	else {
