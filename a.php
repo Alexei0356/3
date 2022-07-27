@@ -3,7 +3,6 @@
     <input type="text"  name="data" placeholder="Введите выражение" value ="<?=$_POST['data'] ?>" />
     <input type="submit" value="Рассчитать" />
 </form>
-</form>
 
 <?php
 //Включение файлов
