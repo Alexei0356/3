@@ -1,37 +1,50 @@
+
+<?php
+use Matex\Evaluator;
+
+//Включение файлов
+require __DIR__ . '/vendor/autoload.php';
+// Создание переменной
+$expression = isset($_POST['data']) ? $_POST['data'] : "";
+// Убираем пробелы из выражения
+$expression = preg_replace('/\s/', "",$expression );
+// Выводим значения переменных
+var_dump($_POST,$expression);
+//print_r($expression);
+?>
+
 <!--создаём html-форму для ввода и отправки строки-->
 <form action="?do=calc" method="post">
-    <input type="text"  name="data" placeholder="Введите выражение" value ="<?=$_POST['data'] ?>" />
+    <input type="text"  name="data" placeholder="Введите выражение" value ="<?=$expression ?>" />
     <input type="submit" value="Рассчитать" />
 </form>
+
 <?php
-
-// Попытка применить тернарный оператор
-//Создаю переменную с условием
-$condition = $_SERVER['REQUEST_METHOD'] !== 'POST';
-
-// создаю переменную с первым операндом (Получилась гигантская, но я так и не сообразил как можно сделать по-другому(((( )
-$expression =
-    //Включение файлов
-    require __DIR__ . '/vendor/autoload.php';
-
-//Условие, в котором производится проверка на совпадение скобок.Если они совпали, то производится вычисление и выводится результат, если нет- сообщение об ошибке
-///Проверка выражения на содержание лишних символов
-if (preg_match("/^[\+\-\*\/\%\d\(\)]+$/",$_POST['data'])) {
-    if(substr_count($_POST['data'], "(") != substr_count($_POST['data'], ")")) {
-        echo 'Скобки не совпадают';
+// Если  HTTP-запрос типа POST:
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Объявляем переменную для результата
+    $result = null;
+//  Проверка выражения на содержание лишних символов
+    if (preg_match("/^[\+\-\*\/\%\d\(\)]+$/", $expression)) {
+//  Проверка выражения на совпадение скобок
+        if (substr_count($_POST['data'], "(") != substr_count($_POST['data'], ")")) {
+            $result = 'Скобки не совпадают';
+        } else {
+            // try - это начало блока, в котором выполняется код, который может произвести ошибку при выполнеии
+            // catch - ошибка поймана в Exception $ex
+            try {
+                $evaluator = new Evaluator();
+                $result = $evaluator->execute($expression);
+            } catch (Exception $ex) {
+//                print_r($ex);
+                $result = $ex ->getMessage();
+            }
+        }
     } else {
-        $evaluator = new \Matex\Evaluator();
-        echo $evaluator->execute($_POST['data']);
+        $result = "Выражение введено с ошибкой";
     }
-} else{
-    echo "Выражение введено с ошибкой";
+    echo $result;
 }
-
-// Применение тернарного оператора
-return $result = $condition ?: $expression;
-
-//     по итогу я изменений не заметил в работе самого калькулятора (при первом запуске всё равно предупреждение появляется),
-// вижу что нагородил что-то не то (мягко говоря), но с пустыми руками приходить стыдно
 ?>
 
 
