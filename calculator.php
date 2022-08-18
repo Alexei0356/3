@@ -20,6 +20,10 @@ var_dump($_POST,$expression);
 </form>
 
 <?php
+// Подключение  MySQL к калькулятору
+$mysql = new mysqli('localhost','root','11111111','ExpressionDB');
+
+
 // Если  HTTP-запрос типа POST:
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Объявляем переменную для результата
@@ -28,23 +32,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (preg_match("/^[\+\-\*\/\%\d\(\)]+$/", $expression)) {
 //  Проверка выражения на совпадение скобок
         if (substr_count($_POST['data'], "(") != substr_count($_POST['data'], ")")) {
+//Отправка строки в БД при несовпадении скобок
+            $mysql-> query("INSERT INTO `Incorrect` (`Incorrect`) VALUES ('$expression') ");
             $result = 'Скобки не совпадают';
         } else {
             // try - это начало блока, в котором выполняется код, который может произвести ошибку при выполнеии
             // catch - ошибка поймана в Exception $ex
             try {
+                //Отправка строки в БД при коректном вводе выражения
+                $mysql-> query("INSERT INTO `Correct` (`Correct`) VALUES ('$expression') ");
                 $evaluator = new Evaluator();
                 $result = $evaluator->execute($expression);
             } catch (Exception $ex) {
 //                print_r($ex);
+                //Отправка строки в БД при некорректном вводе строки (две пустые скобки)
+                $mysql-> query("INSERT INTO `Incorrect` (`Incorrect`) VALUES ('$expression') ");
                 $result = $ex ->getMessage();
             }
         }
     } else {
+        //Отправка строки в БД при ошибке в вводе выражения (введены буквы)
+        $mysql-> query("INSERT INTO `Incorrect` (`Incorrect`) VALUES ('$expression') ");
         $result = "Выражение введено с ошибкой";
     }
     echo $result;
 }
+//Закрытие соединения с БД
+$mysql-> close();
 ?>
 
 
