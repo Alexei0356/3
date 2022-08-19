@@ -1,5 +1,7 @@
+
 {
     "require": {
-        "madorin/matex": "^1.0"
+      "madorin/matex": "^1.0",
+      "ext-mysqli": "*"
     }
 }

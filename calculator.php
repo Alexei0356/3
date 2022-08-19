@@ -20,6 +20,14 @@ var_dump($_POST,$expression);
 </form>
 
 <?php
+//Создание функции для отправки данных в БД
+function INSERT($tableName, $expression) {
+    // Подключение  MySQL к калькулятору
+    $mysql = new mysqli('localhost','root','11111111','learning-DB');
+    $mysql-> query("INSERT INTO `$tableName` (`expression`) VALUES ('$expression') ");
+    //Закрытие соединения с БД
+    $mysql-> close();
+}
 // Если  HTTP-запрос типа POST:
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Объявляем переменную для результата
@@ -27,7 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //  Проверка выражения на содержание лишних символов
     if (preg_match("/^[\+\-\*\/\%\d\(\)]+$/", $expression)) {
 //  Проверка выражения на совпадение скобок
-        if (substr_count($_POST['data'], "(") != substr_count($_POST['data'], ")")) {
+        if (substr_count($expression, "(") != substr_count($expression, ")")) {
+//Отправка строки в БД при несовпадении скобок
+            INSERT('incorrect',$expression);
             $result = 'Скобки не совпадают';
         } else {
             // try - это начало блока, в котором выполняется код, который может произвести ошибку при выполнеии
@@ -35,12 +45,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $evaluator = new Evaluator();
                 $result = $evaluator->execute($expression);
+                //Отправка строки в БД при коректном вводе выражения
+                $mysql = new mysqli('localhost','root','11111111','learning-DB');
+                $mysql-> query("INSERT INTO `correct` (`result`,`expression`) VALUES ('$result','$expression') ");
+//    Закрытие соединения с БД
+                $mysql-> close();
             } catch (Exception $ex) {
 //                print_r($ex);
+                //Отправка строки в БД при некорректном вводе строки (две пустые скобки)
+                INSERT('incorrect',$expression);
                 $result = $ex ->getMessage();
             }
         }
     } else {
+        //Отправка строки в БД при ошибке в вводе выражения (введены буквы)
+        INSERT('incorrect',$expression);
         $result = "Выражение введено с ошибкой";
     }
     echo $result;

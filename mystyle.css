@@ -1,0 +1,15 @@
+/*Стили для блока 1*/
+#block1 {
+    float: left;
+    display: block;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/*Стили для блока 2*/
+#block2 {
+    float: right;
+    display: block;
+    margin-top: 10px;
+    margin-right: 150px;
+}
