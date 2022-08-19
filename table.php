@@ -17,15 +17,19 @@ $I = mysqli_fetch_all($resultI, MYSQLI_ASSOC);
 <button type="submit"  onClick="refreshPage()">Обновить</button>
 
 <div id="block1">Выражения без ошибок при вводе:
-<?php
-var_dump($C);
-?>
+    <pre>
+        <?php
+        print_r($C);
+        ?>
+    </pre>
 </div>
 <!--Создание блока 2-->
 <div id="block2"> Выражения с ошибками при вводе:
-<?php
-var_dump($I);
-?>
+    <pre>
+        <?php
+        print_r($I);
+        ?>
+    </pre>
 </div>
 <!--Скрипт обновления страницы-->
 <script>
